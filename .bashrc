@@ -27,3 +27,5 @@ tfinit() {
     -backend-config="username=gitlab-ci-token" \
     -backend-config="password=${CI_JOB_TOKEN:-dev-placeholder}"
 }
+
+
