@@ -1,7 +1,0 @@
-[
-  { "APP": "processing", "ENV": "dev" },
-  { "APP": "processing", "ENV": "ldt" },
-  { "APP": "processing", "ENV": "ppd" },
-  { "APP": "processing", "ENV": "prd" },
-  { "APP": "processing", "ENV": "tst" }
-]
