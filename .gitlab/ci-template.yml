@@ -6,6 +6,15 @@ stages:
 
 .variables:
   TF_ROOT_DIR: "apps"
+  TFVARS_PATH: ""
+
+.env-check: &env-check
+  - |
+    case "${ENV}" in
+      dev|tst|ldt) TFVARS_PATH="env-config/npd.tfvars" ;;
+      mir|ppd|prd) TFVARS_PATH="env-config/prd.tfvars" ;;
+      *) echo "🚨 Unknown ENV: ${ENV}" && exit 1 ;;
+    esac
 
 init:
   stage: init
@@ -24,10 +33,15 @@ plan:
   stage: plan
   script:
     - cd ${TF_ROOT_DIR}/${APP}/${ENV}
-    - terraform plan -out=tfplan
+    - *env-check
+    - terraform plan -var-file=../../${TFVARS_PATH} -out=tfplan
 
 apply:
   stage: apply
   script:
     - cd ${TF_ROOT_DIR}/${APP}/${ENV}
-    - terraform apply -auto-approve tfplan
+    - *env-check
+    - terraform apply -auto-approve -var-file=../../${TFVARS_PATH}
+
+
+    
