@@ -1,0 +1,33 @@
+### CHILD PIPELINE ###
+stages:
+  - init
+  - plan
+  - apply
+
+.variables:
+  TF_ROOT_DIR: "apps"
+
+init:
+  stage: init
+  script:
+    - cd ${TF_ROOT_DIR}/${APP}/${ENV}
+    - |
+      echo "🌱 Running Terraform Init for ${APP^^}-${ENV^^}"
+      terraform init \
+        -backend-config="address=https://gitlab.example.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${APP}_${ENV}" \
+        -backend-config="lock_address=https://gitlab.example.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${APP}_${ENV}/lock" \
+        -backend-config="unlock_address=https://gitlab.example.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${APP}_${ENV}/lock" \
+        -backend-config="username=gitlab-ci-token" \
+        -backend-config="password=${CI_JOB_TOKEN}"
+
+plan:
+  stage: plan
+  script:
+    - cd ${TF_ROOT_DIR}/${APP}/${ENV}
+    - terraform plan -out=tfplan
+
+apply:
+  stage: apply
+  script:
+    - cd ${TF_ROOT_DIR}/${APP}/${ENV}
+    - terraform apply -auto-approve tfplan

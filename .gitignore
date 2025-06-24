@@ -2,3 +2,5 @@
 matrix.json
 ## Terraform Modules
 .terraform/*
+## test script
+script.sh
