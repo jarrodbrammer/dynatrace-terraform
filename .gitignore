@@ -1,6 +1,7 @@
 ## Matrix file
 matrix.json
-## Terraform Modules
+## Terraform Modules & Files
+.terraform.lock.hcl
 .terraform/*
 ## test script
 script.sh
