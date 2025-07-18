@@ -15,8 +15,8 @@ generate-matrix:
       echo '[' > matrix.json
 
       # Determine SHAs safely for diff
-      BEFORE_SHA=${CI_COMMIT_BEFORE_SHA:-"$(git rev-list --max-parents=0 HEAD)"}
-      AFTER_SHA=${CI_COMMIT_SHA:-"HEAD"}
+      BEFORE_SHA=${CI_COMMIT_BEFORE_SHA:-"$(git rev-parse HEAD^)"}
+      AFTER_SHA=${CI_COMMIT_SHA:-"$(git rev-parse HEAD)"}
 
       echo "🔍 Detecting changes between $BEFORE_SHA and $AFTER_SHA..."
 
