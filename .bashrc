@@ -1,4 +1,10 @@
-tfinit() {
+dtinit() {
+  # Only allow running inside apps/<app>/<env>
+  if [[ ! "$PWD" =~ /apps/[^/]+/[^/]+$ ]]; then
+    echo "❌ Error: tfinit must be run inside an apps/<app>/<env> directory."
+    return 1
+  fi
+
   local ENV=$(basename "$PWD")
   local APP=$(basename "$(dirname "$PWD")")
 
